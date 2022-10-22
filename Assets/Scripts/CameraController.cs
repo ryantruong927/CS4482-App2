@@ -9,16 +9,22 @@ public class CameraController : MonoBehaviour {
 
 	private Vector3 targetPosition;
 
+	private float screenWidth;
 	private bool isMoving;
 	public float moveTime = 1f;
 
 	private void Awake() {
+		ChangeSize();
+
 		MoveCamera(startingRoom, startingRoom.transform.position);
 		targetPosition = transform.position;
 		isMoving = false;
 	}
 
 	private void Update() {
+		if (Screen.width != screenWidth)
+			ChangeSize();
+
 		if (isMoving) {
 			transform.position = Vector3.MoveTowards(transform.position, targetPosition, Vector3.Distance(transform.position, targetPosition) / moveTime * Time.unscaledDeltaTime);
 
@@ -30,6 +36,23 @@ public class CameraController : MonoBehaviour {
 				isMoving = false;
 			}
 		}
+	}
+
+	private void ChangeSize() {
+		screenWidth = Screen.width;
+
+		Rect cameraRect = Camera.main.rect;
+		cameraRect.width = Camera.main.aspect / (16 / 9);
+		cameraRect.y = (1 - cameraRect.width) / 2;
+		Camera.main.rect = cameraRect;
+
+		//Camera.main.orthographicSize = (18 / screenWidth) * Screen.height * 0.5f;
+		//if (aspectRatio < 1.7) {
+		//	if (aspectRatio >= 1.5)
+		//		Camera.main.orthographicSize = ((Screen.height) / 64) * 0.5f;
+		//	else
+		//		Camera.main.orthographicSize = 7;
+		//}
 	}
 
 	public void MoveCamera(GameObject newRoom, Vector3 position) {
