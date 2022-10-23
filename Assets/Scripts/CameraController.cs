@@ -39,16 +39,17 @@ public class CameraController : MonoBehaviour {
 	}
 
 	private void ChangeSize() {
+		//float aspectRatio = Camera.main.aspect;
 		screenWidth = Screen.width;
 
-		Rect cameraRect = Camera.main.rect;
-		cameraRect.width = Camera.main.aspect / (16 / 9);
-		cameraRect.y = (1 - cameraRect.width) / 2;
-		Camera.main.rect = cameraRect;
+		//Rect cameraRect = Camera.main.rect;
+		//cameraRect.width = Camera.main.aspect / (16 / 9);
+		//cameraRect.y = (1 - cameraRect.width) / 2;
+		//Camera.main.rect = cameraRect;
 
-		//Camera.main.orthographicSize = (18 / screenWidth) * Screen.height * 0.5f;
-		//if (aspectRatio < 1.7) {
-		//	if (aspectRatio >= 1.5)
+		Camera.main.orthographicSize = (18 / screenWidth) * Screen.height * 0.5f;
+		//if (aspectRatio < 1.7) { // not 16:9
+		//	if (aspectRatio >= 1.5) // 3:2
 		//		Camera.main.orthographicSize = ((Screen.height) / 64) * 0.5f;
 		//	else
 		//		Camera.main.orthographicSize = 7;

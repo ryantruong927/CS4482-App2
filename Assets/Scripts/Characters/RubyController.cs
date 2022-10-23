@@ -21,9 +21,6 @@ public class RubyController : Controller {
 		animator.SetFloat("Look X", lookDirection.x);
 		animator.SetFloat("Look Y", lookDirection.y);
 		animator.SetFloat("Speed", input.magnitude);
-
-		if (Input.GetKeyDown(KeyCode.C))
-			Launch();
 	}
 
 	private void FixedUpdate() {
@@ -38,16 +35,5 @@ public class RubyController : Controller {
 
 		if (amount < 0)
 			animator.SetTrigger("Hit");
-	}
-
-	private void Launch() {
-		Vector2 projectilePosition = (rigidbody2D.position + Vector2.up * 0.5f) + lookDirection;
-
-		GameObject projectileObject = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
-
-		Projectile projectile = projectileObject.GetComponent<Projectile>();
-		projectile.Launch(lookDirection, 300f);
-
-		animator.SetTrigger("Launch");
 	}
 }

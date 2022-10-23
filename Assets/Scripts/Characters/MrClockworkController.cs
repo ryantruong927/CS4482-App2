@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MrClockworkController : Controller {
-	public bool isBroken = true;
-
 	private Vector2 lastSeenPosition;
 	private bool isChasing;
 	public float chaseSpeed = 2.5f;
@@ -30,7 +28,6 @@ public class MrClockworkController : Controller {
 	}
 
 	protected override void Update() {
-		if (isBroken) {
 			base.Update();
 
 			if (isChasing) {
@@ -56,11 +53,9 @@ public class MrClockworkController : Controller {
 					speed *= -1;
 				}
 			}
-		}
 	}
 
 	private void FixedUpdate() {
-		if (isBroken) {
 			Vector2 position = rigidbody2D.position;
 
 			if (isChasing) {
@@ -91,26 +86,9 @@ public class MrClockworkController : Controller {
 
 				rigidbody2D.MovePosition(position);
 			}
-		}
-	}
-
-	public void Fix() {
-		isBroken = false;
-		rigidbody2D.simulated = false;
-		animator.SetTrigger("Fixed");
-	}
-
-	private void OnCollisionStay2D(Collision2D collision) {
-		if (isBroken) {
-			RubyController player = collision.gameObject.GetComponent<RubyController>();
-
-			if (player != null)
-				player.ChangeHealth(damage);
-		}
 	}
 
 	private void OnTriggerStay2D(Collider2D collision) {
-		if (isBroken) {
 			RubyController player = collision.gameObject.GetComponent<RubyController>();
 
 			// if player entered the FOV
@@ -139,5 +117,4 @@ public class MrClockworkController : Controller {
 				chaseTimer = chaseTime;
 			}
 		}
-	}
 }
