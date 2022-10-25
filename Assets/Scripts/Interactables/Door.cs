@@ -7,7 +7,7 @@ public class Door : MonoBehaviour {
 	private GameObject currentRoom;
 
 	private void OnTriggerEnter2D(Collider2D collision) {
-		if (collision.GetComponent<RubyController>() != null) {
+		if (collision.GetComponent<PlayerController>() != null) {
 			Debug.Log("Entered");
 			Vector3 position = Camera.main.transform.position;
 
@@ -23,7 +23,7 @@ public class Door : MonoBehaviour {
 	}
 
 	private void OnTriggerExit2D(Collider2D collision) {
-		RubyController ruby = collision.GetComponent<RubyController>();
+		PlayerController ruby = collision.GetComponent<PlayerController>();
 
 		if (ruby != null) {
 			Debug.Log("Exited");
