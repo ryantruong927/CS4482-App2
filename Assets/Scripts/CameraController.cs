@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour {
 	private Vector3 targetPosition;
 
 	private bool isMoving;
-	public float moveTime = 1f;
+	public float moveTime = 1;
 
 	private void Awake() {
 		MoveCamera(startingRoom, startingRoom.transform.position);

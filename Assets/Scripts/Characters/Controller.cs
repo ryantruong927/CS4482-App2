@@ -8,18 +8,22 @@ public class Controller : MonoBehaviour {
 	protected int currentHealth;
 	public int Health { get { return currentHealth; } }
 
-	public float invincibleTime = 1f;
+	public float invincibleTime = 1;
 	protected bool isInvincible = false;
 	protected float invisibleTimer;
 
-	public float speed = 3f;
+	public float attackTime = 0.3f;
+	protected bool isAttacking = false;
+	protected float attackTimer;
 
-	protected Rigidbody2D rigidbody2D;
-	protected Animator animator;
+	public float speed = 3.5f;
+
+	protected Rigidbody2D rb;
+	protected Animator anim;
 
 	protected virtual void Start() {
-		rigidbody2D = GetComponent<Rigidbody2D>();
-		animator = GetComponent<Animator>();
+		rb = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
 		currentHealth = maxHealth;
 	}
 
@@ -29,6 +33,15 @@ public class Controller : MonoBehaviour {
 
 			if (invisibleTimer <= 0)
 				isInvincible = false;
+		}
+
+		if (isAttacking) {
+			attackTimer -= Time.deltaTime;
+
+			if (attackTimer <= 0) {
+				anim.SetBool("Attacking", false);
+				isAttacking = false;
+			}
 		}
 	}
 
