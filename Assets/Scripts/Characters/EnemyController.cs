@@ -21,15 +21,20 @@ public class EnemyController : Controller {
 
 		changeTimer = changeTime;
 
-		if (isGoingUpAndDown)
-			anim.SetFloat("Move X", 0f);
-		else
-			anim.SetFloat("Move Y", 0f);
+		if (isGoingUpAndDown) {
+			lookDirection = new Vector2(1, 0);
+			anim.SetFloat("Look X", 0);
+		}
+		else {
+			lookDirection = new Vector2(0, 1);
+			anim.SetFloat("Look Y", 0);
+		}
 	}
 
 	protected override void Update() {
-			base.Update();
+		base.Update();
 
+		if (!isKnockedBack) {
 			if (isChasing) {
 				if (chaseTimer > 0)
 					chaseTimer -= Time.deltaTime;
@@ -39,10 +44,14 @@ public class EnemyController : Controller {
 					isChasing = false;
 					changeTimer = changeTime;
 
-					if (isGoingUpAndDown)
-						anim.SetFloat("Move X", 0f);
-					else
-						anim.SetFloat("Move Y", 0f);
+					if (isGoingUpAndDown) {
+						lookDirection = new Vector2(1, 0);
+						anim.SetFloat("Look X", 0);
+					}
+					else {
+						lookDirection = new Vector2(0, 1);
+						anim.SetFloat("Look Y", 0);
+					}
 				}
 			}
 			else {
@@ -53,68 +62,91 @@ public class EnemyController : Controller {
 					speed *= -1;
 				}
 			}
+
+			anim.SetFloat("Speed", Mathf.Abs(speed));
+		}
 	}
 
-	private void FixedUpdate() {
+	protected override void FixedUpdate() {
+		base.FixedUpdate();
+
+		if (!isKnockedBack && !isAttacking) {
 			Vector2 position = rb.position;
 
 			if (isChasing) {
 				// change the direction the enemy is facing based on its position relative to the player
 				// in other words, make the enemy face the player correctly given their speed in toward a direction
 				if (Mathf.Abs(lastSeenPosition.x - position.x) > Mathf.Abs(lastSeenPosition.y - position.y)) {
-					anim.SetFloat("Move X", position.x < lastSeenPosition.x ? 1f : -1f);
-					anim.SetFloat("Move Y", 0f);
+					lookDirection = new Vector2(position.x < lastSeenPosition.x ? 1 : -1, 0);
 				}
 				else {
-					anim.SetFloat("Move X", 0f);
-					anim.SetFloat("Move Y", position.y < lastSeenPosition.y ? 1f : -1f);
+					lookDirection = new Vector2(0, position.y < lastSeenPosition.y ? 1 : -1);
 				}
+
+				anim.SetFloat("Look X", lookDirection.x);
+				anim.SetFloat("Look Y", lookDirection.y);
 
 				// move enemy toward the player's position
 				position = Vector2.MoveTowards(rb.position, lastSeenPosition, Mathf.Abs(chaseSpeed) * Time.deltaTime);
 				rb.MovePosition(position);
+
+				if (isMeleeEquipped) {
+					if ((lastSeenPosition - position).magnitude <= melee.range) {
+						Attack();
+					}
+				}
+				else {
+					if ((lastSeenPosition - position).magnitude <= ranged.range) {
+						Attack();
+					}
+				}
 			}
 			else {
 				if (isGoingUpAndDown) {
-					anim.SetFloat("Move Y", speed);
+					lookDirection.y = speed;
+					lookDirection.Normalize();
+					anim.SetFloat("Look Y", lookDirection.y);
 					position.y += speed * Time.deltaTime;
 				}
 				else {
-					anim.SetFloat("Move X", speed);
+					lookDirection.x = speed;
+					lookDirection.Normalize();
+					anim.SetFloat("Look X", lookDirection.x);
 					position.x += speed * Time.deltaTime;
 				}
 
 				rb.MovePosition(position);
 			}
+		}
 	}
 
 	private void OnTriggerStay2D(Collider2D collision) {
-			PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+		PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
-			// if player entered the FOV
-			if (player != null) {
-				// get positions of enemy and player
-				Vector2 position = rb.position;
-				lastSeenPosition = collision.gameObject.GetComponent<Rigidbody2D>().position;
+		// if player entered the FOV
+		if (player != null) {
+			// get positions of enemy and player
+			Vector2 position = rb.position;
+			lastSeenPosition = collision.gameObject.GetComponent<Rigidbody2D>().position;
 
-				// check if the player is in front of the enemy
-				if (!isChasing) {
-					if (speed > 0) {
-						if (isGoingUpAndDown && (lastSeenPosition.y < position.y))
-							return;
-						else if (lastSeenPosition.x < position.x)
-							return;
-					}
-					else if (isGoingUpAndDown && (lastSeenPosition.y > position.y))
+			// check if the player is in front of the enemy
+			if (!isChasing) {
+				if (speed > 0) {
+					if (isGoingUpAndDown && (lastSeenPosition.y < position.y))
 						return;
-					else if (lastSeenPosition.x > position.x)
+					else if (lastSeenPosition.x < position.x)
 						return;
 				}
-
-				isChasing = true;
-
-				// keep restarting the timer as long as the player is seen
-				chaseTimer = chaseTime;
+				else if (isGoingUpAndDown && (lastSeenPosition.y > position.y))
+					return;
+				else if (lastSeenPosition.x > position.x)
+					return;
 			}
+
+			isChasing = true;
+
+			// keep restarting the timer as long as the player is seen
+			chaseTimer = chaseTime;
 		}
+	}
 }

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: BowData
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: fdae3f4a2a37d1a4e8205301f9130bb9, type: 3}
-  dmg: 5
+  dmg: 3
   range: 10
-  speed: 3
-  knockback: 1
-  projectile: {fileID: 21300000, guid: e20b0f39e97c4804e990de342e9b2a35, type: 3}
+  speed: 10
+  projectilePrefab: {fileID: 1652061229022976713, guid: 3fc90315396ef3a4a886a76e2f6e7e60, type: 3}
+  projectileSprite: {fileID: 21300000, guid: e20b0f39e97c4804e990de342e9b2a35, type: 3}
   chargeTime: 1
   pierce: 1

@@ -4,7 +4,8 @@ using UnityEngine;
 
 [CreateAssetMenuAttribute(fileName = "New Ranged Weapon", menuName = "Weapon/Ranged Weapon")]
 public class RangedData : WeaponData {
-	public Sprite projectile;
+	public GameObject projectilePrefab;
+	public Sprite projectileSprite;
 	public float chargeTime;
-	public float pierce;
+	public int pierce;
 }

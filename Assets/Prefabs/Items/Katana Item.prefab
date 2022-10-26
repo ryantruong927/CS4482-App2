@@ -95,9 +95,23 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 465584820543150767, guid: ebf14b916e458a44fad726135e84da53, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf14b916e458a44fad726135e84da53, type: 3}
+--- !u!1 &4657453313640386042 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 465584820260619432, guid: ebf14b916e458a44fad726135e84da53, type: 3}
+  m_PrefabInstance: {fileID: 5103862545885858130}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4780802101477301807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4657453313640386042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f17ae1b937cb59d4ba0532c97367c701, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeData: {fileID: 11400000, guid: bdd3442bb4f68a9458293c95356a3904, type: 2}

@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 465584818861595579, guid: ebf14b916e458a44fad726135e84da53, type: 3}
       propertyPath: m_Name
-      value: Bow Item Variant
+      value: Bow Item
       objectReference: {fileID: 0}
     - target: {fileID: 465584818861595581, guid: ebf14b916e458a44fad726135e84da53, type: 3}
       propertyPath: m_RootOrder
@@ -93,3 +93,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf14b916e458a44fad726135e84da53, type: 3}
+--- !u!1 &2842652886577269609 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 465584820260619432, guid: ebf14b916e458a44fad726135e84da53, type: 3}
+  m_PrefabInstance: {fileID: 2379368795482329025}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &905946818391299617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2842652886577269609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce82395c4d776d849a3d9f139402677f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangedData: {fileID: 11400000, guid: 1545a1e5ec7ac774086ed112deef9166, type: 2}

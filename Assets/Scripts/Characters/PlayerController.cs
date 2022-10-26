@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Controller {
 	private Vector2 input;
-	private Vector2 lookDirection = new Vector2(1f, 0f);
 
 	public float pickUpDistance = 2;
 	public float pickUpTime = 1;
 	private bool isPickingUpItem = false;
 	private float pickUpTimer;
-
-	private Melee melee;
-	private Ranged ranged;
 
 	protected override void Update() {
 		base.Update();
@@ -23,7 +17,7 @@ public class PlayerController : Controller {
 			if (pickUpTimer <= 0) {
 				isPickingUpItem = false;
 				anim.SetBool("Picking Up Item", false);
-				Destroy(transform.GetChild(0).gameObject);
+				Destroy(transform.GetChild(2).gameObject);
 			}
 		}
 		else if (!isAttacking) {
@@ -38,16 +32,20 @@ public class PlayerController : Controller {
 			anim.SetFloat("Look Y", lookDirection.y);
 			anim.SetFloat("Speed", input.magnitude);
 
-			if (Input.GetAxis("Attack") > 0) {
-				anim.SetBool("Attacking", true);
-				isAttacking = true;
-				attackTimer = attackTime;
+			if (Input.GetAxis("Swap") > 0) {
+				Swap();
+			}
+			else if (Input.GetAxis("Attack") > 0) {
+				if ((isMeleeEquipped && melee != null) || (!isMeleeEquipped && ranged != null))
+					Attack();
 			}
 		}
 	}
 
-	private void FixedUpdate() {
-		if (!isPickingUpItem && !isAttacking) {
+	protected override void FixedUpdate() {
+		base.FixedUpdate();
+
+		if (!isPickingUpItem && !isKnockedBack && !isAttacking) {
 			Vector2 position = rb.position;
 
 			if (input.magnitude > 1)
@@ -59,11 +57,13 @@ public class PlayerController : Controller {
 		}
 	}
 
-	public override void ChangeHealth(int amount) {
-		base.ChangeHealth(amount);
+	public void Swap() {
+		isMeleeEquipped = !isMeleeEquipped;
 
-		if (amount < 0)
-			anim.SetTrigger("Hit");
+		if (isMeleeEquipped && melee != null)
+			transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = melee.sprite;
+		else if (ranged != null)
+			transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = ranged.sprite;
 	}
 
 	public bool PickUp(Transform item) {
@@ -73,9 +73,25 @@ public class PlayerController : Controller {
 		item.position = new Vector3(transform.position.x, transform.position.y + pickUpDistance, transform.position.z);
 		item.parent = gameObject.transform;
 
+		if (item.GetComponent<Melee>() != null) {
+			melee = item.GetComponent<Melee>().meleeData;
+			transform.GetChild(0).GetComponent<Melee>().meleeData = melee;
+
+			if (isMeleeEquipped)
+				transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = melee.sprite;
+		}
+		else if (item.GetComponent<Ranged>() != null) {
+			ranged = item.GetComponent<Ranged>().rangedData;
+			transform.GetChild(0).GetComponent<Ranged>().rangedData = ranged;
+
+			if (!isMeleeEquipped)
+				transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = ranged.sprite;
+		}
+
 		pickUpTimer = pickUpTime;
 		isPickingUpItem = true;
 		anim.SetBool("Picking Up Item", true);
+
 		return true;
 	}
 }
