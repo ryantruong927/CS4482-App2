@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour {
-	public bool hasLaunched = false;
+	public bool hasFired = false;
+	private string owner;
 	private RangedData rangedData;
 	private int remainingPierce;
 	private Vector2 startPosition;
 
 	private Rigidbody2D rb;
 
-	public void Create(RangedData rangedData, Vector2 lookDirection) {
+	public void Create(string owner, RangedData rangedData, Vector2 lookDirection) {
+		this.owner = owner;
 		this.rangedData = rangedData;
 
 		rb = GetComponent<Rigidbody2D>();
@@ -19,14 +21,13 @@ public class Projectile : MonoBehaviour {
 		remainingPierce = rangedData.pierce;
 		startPosition = rb.position;
 		rb.velocity = (lookDirection * rangedData.speed);
-		hasLaunched = true;
+		hasFired = true;
 	}
 
 	private void Update() {
-		if (hasLaunched) {
-			if ((rb.position - startPosition).magnitude >= rangedData.range) {
+		if (hasFired) {
+			if ((rb.position - startPosition).magnitude >= rangedData.range)
 				Destroy(gameObject);
-			}
 		}
 	}
 
@@ -35,7 +36,7 @@ public class Projectile : MonoBehaviour {
 			rb.velocity = Vector2.zero;
 			Destroy(GetComponent<CapsuleCollider2D>());
 		}
-		else if (collider.GetType() != typeof(CircleCollider2D)) {
+		else if (!collider.CompareTag(owner) && (collider.GetType() != typeof(CircleCollider2D))) {
 			Controller character = collider.GetComponent<Controller>();
 
 			if (character != null) {

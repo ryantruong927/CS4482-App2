@@ -216,4 +216,15 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: -1132681396, guid: a6726af67ec065a4ca3f8b682c53676f, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 1
+  - m_Name: Dead
+    m_Hash: 1293411866
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: SpriteSheet_24
+      m_Hash: 536466219
+      m_Sprite: {fileID: 4564057, guid: a6726af67ec065a4ca3f8b682c53676f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 4564057, guid: a6726af67ec065a4ca3f8b682c53676f, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
   m_PrimaryLibraryGUID: 

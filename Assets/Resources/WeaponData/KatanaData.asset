@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: KatanaData
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: b331a181d02c39d4b9173336ae4d4608, type: 3}
-  dmg: 5
+  dmg: 3
   range: 1
   speed: 0.3
   knockback: 1

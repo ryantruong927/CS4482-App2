@@ -13,28 +13,38 @@ public class EnemyController : Controller {
 	private float changeTimer;
 
 	public bool isGoingUpAndDown = false;
+	public bool isStationary = false;
 
 	public int damage = -1;
 
 	protected override void Start() {
 		base.Start();
 
-		changeTimer = changeTime;
-
 		if (isGoingUpAndDown) {
-			lookDirection = new Vector2(1, 0);
+			lookDirection = new Vector2(0, -1);
 			anim.SetFloat("Look X", 0);
+			anim.SetFloat("Look Y", -1);
 		}
 		else {
-			lookDirection = new Vector2(0, 1);
+			lookDirection = new Vector2(1, 0);
+			anim.SetFloat("Look X", 1);
 			anim.SetFloat("Look Y", 0);
 		}
+
+		if (isStationary) {
+			speed = 1;
+			chaseSpeed = 1;
+			chaseTime = 1;
+			changeTime = 1;
+		}
+
+		changeTimer = changeTime;
 	}
 
 	protected override void Update() {
 		base.Update();
 
-		if (!isKnockedBack) {
+		if (!isKnockedBack && !isStationary) {
 			if (isChasing) {
 				if (chaseTimer > 0)
 					chaseTimer -= Time.deltaTime;
@@ -86,38 +96,59 @@ public class EnemyController : Controller {
 				anim.SetFloat("Look X", lookDirection.x);
 				anim.SetFloat("Look Y", lookDirection.y);
 
-				// move enemy toward the player's position
-				position = Vector2.MoveTowards(rb.position, lastSeenPosition, Mathf.Abs(chaseSpeed) * Time.deltaTime);
-				rb.MovePosition(position);
+				if (!isStationary) {
+					// move enemy toward the player's position
+					position = Vector2.MoveTowards(rb.position, lastSeenPosition, Mathf.Abs(chaseSpeed) * Time.deltaTime);
+					rb.MovePosition(position);
+				}
 
 				if (isMeleeEquipped) {
-					if ((lastSeenPosition - position).magnitude <= melee.range) {
+					if ((lastSeenPosition - position).magnitude <= meleeWeapon.range) {
 						Attack();
 					}
 				}
 				else {
-					if ((lastSeenPosition - position).magnitude <= ranged.range) {
+					if ((lastSeenPosition - position).magnitude <= rangedWeapon.range) {
 						Attack();
 					}
 				}
 			}
 			else {
-				if (isGoingUpAndDown) {
-					lookDirection.y = speed;
-					lookDirection.Normalize();
-					anim.SetFloat("Look Y", lookDirection.y);
-					position.y += speed * Time.deltaTime;
+				if (!isStationary) {
+					if (isGoingUpAndDown) {
+						lookDirection.y = speed;
+						lookDirection.Normalize();
+						anim.SetFloat("Look Y", lookDirection.y);
+						position.y += speed * Time.deltaTime;
+					}
+					else {
+						lookDirection.x = speed;
+						lookDirection.Normalize();
+						anim.SetFloat("Look X", lookDirection.x);
+						position.x += speed * Time.deltaTime;
+					}
+
+					rb.MovePosition(position);
 				}
 				else {
-					lookDirection.x = speed;
-					lookDirection.Normalize();
-					anim.SetFloat("Look X", lookDirection.x);
-					position.x += speed * Time.deltaTime;
+					if (isGoingUpAndDown) {
+						lookDirection.y = -1;
+						anim.SetFloat("Look Y", lookDirection.y);
+					}
+					else {
+						lookDirection.x = 1;
+						anim.SetFloat("Look X", lookDirection.x);
+					}
 				}
-
-				rb.MovePosition(position);
 			}
 		}
+	}
+
+	public override void Attack() {
+		base.Attack();
+
+		if (isMeleeEquipped)
+			attackTimer += 1;
 	}
 
 	private void OnTriggerStay2D(Collider2D collision) {
@@ -127,20 +158,26 @@ public class EnemyController : Controller {
 		if (player != null) {
 			// get positions of enemy and player
 			Vector2 position = rb.position;
-			lastSeenPosition = collision.gameObject.GetComponent<Rigidbody2D>().position;
+			lastSeenPosition = collision.transform.position;
 
 			// check if the player is in front of the enemy
 			if (!isChasing) {
-				if (speed > 0) {
-					if (isGoingUpAndDown && (lastSeenPosition.y < position.y))
-						return;
-					else if (lastSeenPosition.x < position.x)
+				if (lookDirection.x > 0) {
+					if (lastSeenPosition.x < position.x)
 						return;
 				}
-				else if (isGoingUpAndDown && (lastSeenPosition.y > position.y))
-					return;
-				else if (lastSeenPosition.x > position.x)
-					return;
+				else if (lookDirection.x < 0) {
+					if (lastSeenPosition.x > position.x)
+						return;
+				}
+				else if (lookDirection.y > 0) {
+					if (lastSeenPosition.y < position.y)
+						return;
+				}
+				else if (lookDirection.y < 0) {
+					if (lastSeenPosition.y > position.y)
+						return;
+				}
 			}
 
 			isChasing = true;

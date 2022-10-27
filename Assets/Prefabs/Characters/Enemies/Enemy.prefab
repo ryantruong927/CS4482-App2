@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 4429483640545591516}
   m_Layer: 6
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -159,18 +159,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362a0e94013f5634793b4b1ec9f5e30f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equippedWeapon: {fileID: 0}
+  meleeWeapon: {fileID: 0}
+  rangedWeapon: {fileID: 0}
   maxHealth: 10
   currentHealth: 0
-  isMeleeEquipped: 1
-  melee: {fileID: 0}
-  ranged: {fileID: 0}
+  flickerTime: 0.2
   invincibleTime: 1
-  attackTime: 0.3
-  speed: 3.5
-  chaseSpeed: 2.5
-  chaseTime: 2
-  changeTime: 2
-  isGoingUpAndDown: 0
+  isMeleeEquipped: 1
+  speed: 0
+  chaseSpeed: 0
+  chaseTime: 1
+  changeTime: 0
+  isGoingUpAndDown: 1
   damage: -1
 --- !u!50 &3640899050546920743
 Rigidbody2D:

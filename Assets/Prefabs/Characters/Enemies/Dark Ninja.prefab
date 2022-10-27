@@ -11,6 +11,26 @@ PrefabInstance:
       propertyPath: melee
       value: 
       objectReference: {fileID: 11400000, guid: bdd3442bb4f68a9458293c95356a3904, type: 2}
+    - target: {fileID: 794026300811566197, guid: e499d443913341c409ed700a2c19ce31, type: 3}
+      propertyPath: speed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 794026300811566197, guid: e499d443913341c409ed700a2c19ce31, type: 3}
+      propertyPath: chaseTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 794026300811566197, guid: e499d443913341c409ed700a2c19ce31, type: 3}
+      propertyPath: changeTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 794026300811566197, guid: e499d443913341c409ed700a2c19ce31, type: 3}
+      propertyPath: chaseSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 794026300811566197, guid: e499d443913341c409ed700a2c19ce31, type: 3}
+      propertyPath: meleeWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: bdd3442bb4f68a9458293c95356a3904, type: 2}
     - target: {fileID: 1140131254367238380, guid: e499d443913341c409ed700a2c19ce31, type: 3}
       propertyPath: m_SpriteLibraryAsset
       value: 

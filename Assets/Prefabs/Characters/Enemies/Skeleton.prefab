@@ -12,6 +12,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1545a1e5ec7ac774086ed112deef9166, type: 2}
     - target: {fileID: 794026300811566197, guid: e499d443913341c409ed700a2c19ce31, type: 3}
+      propertyPath: isStationary
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 794026300811566197, guid: e499d443913341c409ed700a2c19ce31, type: 3}
+      propertyPath: rangedWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 1545a1e5ec7ac774086ed112deef9166, type: 2}
+    - target: {fileID: 794026300811566197, guid: e499d443913341c409ed700a2c19ce31, type: 3}
       propertyPath: isMeleeEquipped
       value: 0
       objectReference: {fileID: 0}
@@ -19,6 +27,10 @@ PrefabInstance:
       propertyPath: m_SpriteLibraryAsset
       value: 
       objectReference: {fileID: 7108339969198208228, guid: 9bde8be13f48e16478e53a3a7c92a08e, type: 3}
+    - target: {fileID: 2732469372219755682, guid: e499d443913341c409ed700a2c19ce31, type: 3}
+      propertyPath: m_Radius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3640899050546920736, guid: e499d443913341c409ed700a2c19ce31, type: 3}
       propertyPath: m_Name
       value: Skeleton
