@@ -15,14 +15,15 @@ public class HUD : MonoBehaviour {
     public Image meleeWeaponBox, meleeWeapon;
     public Image rangedWeaponBox, rangedWeapon;
 
-	public GameObject tutorialBox, pauseBox, gameOverBox;
+	public GameObject tutorialBox, pauseBox, completeBox;
 	public TextMeshProUGUI nameField;
 
 	private int activeScene;
+	private bool hasWon = false;
 	public bool isPlaying = true;
 	public bool isGamePaused = false;
 	private int health = 10;
-	private int score;
+	private string score;
 
 	private void Awake() {
 		activeScene = SceneManager.GetActiveScene().buildIndex;
@@ -40,8 +41,8 @@ public class HUD : MonoBehaviour {
 	private void Update() {
 		if (activeScene != 0 && isPlaying && !isGamePaused) {
 			float time = Time.time;
-			score = Mathf.FloorToInt(time);
-			this.time.text = "Time:  " + TimeSpan.FromSeconds(time).ToString(@"mm\:ss");
+			score = TimeSpan.FromSeconds(time).ToString(@"mm\:ss");
+			this.time.text = "Time:  " + score;
 		}
 	}
 
@@ -140,18 +141,37 @@ public class HUD : MonoBehaviour {
 		}
     }
 
-	public void GameOver() {
+	public void Win() {
+		Time.timeScale = 0;
+		hasWon = true;
 		isPlaying = false;
-		gameOverBox.SetActive(true);
+		completeBox.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Level " + SceneManager.GetActiveScene().buildIndex + " Completed!";
+		completeBox.SetActive(true);
+	}
+
+	public void GameOver() {
+		hasWon = false;
+		isPlaying = false;
+		completeBox.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Game Over!";
+		completeBox.SetActive(true);
 	}
 
 	public void SubmitScore() {
 		string name = nameField.text;
 
 		if (name.Length - 1 == 3) {
-			gameOverBox.SetActive(false);
+			completeBox.SetActive(false);
+			if (hasWon) {
+				int buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
+				if (buildIndex + 1 <= SceneManager.sceneCountInBuildSettings)
+					SceneManager.LoadScene(buildIndex);
+				else
+					SceneManager.LoadScene(0);
+			}
+			else
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 
-		SceneManager.LoadScene(0);
+		Time.timeScale = 1;
 	}
 }

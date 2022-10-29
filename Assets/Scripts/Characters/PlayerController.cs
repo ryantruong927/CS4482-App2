@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerController : Controller {
 	private HUD HUD;
@@ -104,9 +105,10 @@ public class PlayerController : Controller {
 	}
 
 	public override void Hit(int dmg) {
-		base.Hit(dmg);
+		if (!isInvincible)
+			HUD.UpdateHearts(-dmg);
 
-		HUD.UpdateHearts(-dmg);
+		base.Hit(dmg);
 	}
 
 	public override void Heal(int heal) {
@@ -127,6 +129,7 @@ public class PlayerController : Controller {
 	}
 
 	public bool PickUp(Transform item) {
+
 		if (isAttacking)
 			return false;
 
@@ -155,5 +158,12 @@ public class PlayerController : Controller {
 		}
 
 		return true;
+	}
+
+	public void Win() {
+		isAttacking = false;
+		anim.SetBool("Attacking", false);
+		anim.SetBool("Picking Up Item", true);
+		HUD.Win();
 	}
 }
