@@ -3718,7 +3718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5570864133065855946, guid: d2e572bdbca6118479c61684b719de10, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5570864133065855946, guid: d2e572bdbca6118479c61684b719de10, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19661,6 +19661,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1187403578}
     - target: {fileID: 6111148013034862861, guid: b5b64f1e82a5a7447bd349821d7ed286, type: 3}
+      propertyPath: submitBox
+      value: 
+      objectReference: {fileID: 534958703}
+    - target: {fileID: 6111148013034862861, guid: b5b64f1e82a5a7447bd349821d7ed286, type: 3}
       propertyPath: completeBox
       value: 
       objectReference: {fileID: 534958703}
@@ -19852,7 +19856,7 @@ PrefabInstance:
       objectReference: {fileID: 1943514161}
     - target: {fileID: 737904697040389331, guid: 5662266d8d3899a40836c99a332a63d4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ExitGame
+      value: ExitLevel
       objectReference: {fileID: 0}
     - target: {fileID: 4652735123518755040, guid: 5662266d8d3899a40836c99a332a63d4, type: 3}
       propertyPath: m_Name

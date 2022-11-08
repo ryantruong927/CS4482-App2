@@ -8,7 +8,6 @@ public class Door : MonoBehaviour {
 
 	private void OnTriggerEnter2D(Collider2D collision) {
 		if (collision.GetComponent<PlayerController>() != null) {
-			Debug.Log("Entered");
 			Vector3 position = Camera.main.transform.position;
 
 			if (position.x == room1.transform.position.x && position.y == room1.transform.position.y) {
@@ -26,7 +25,6 @@ public class Door : MonoBehaviour {
 		PlayerController ruby = collision.GetComponent<PlayerController>();
 
 		if (ruby != null) {
-			Debug.Log("Exited");
 			Vector3 rubyPosition = ruby.transform.position;
 			Vector3 room1Position = room1.transform.position;
 			Vector3 room2Position = room2.transform.position;

@@ -93,6 +93,8 @@ public class Controller : MonoBehaviour {
 			if (Vector3.Distance(rb.position, knockbackPosition) <= 0)
 				isKnockedBack = false;
 		}
+
+		rb.velocity = Vector3.zero;
 	}
 
 	public virtual void Hit(int dmg) {
