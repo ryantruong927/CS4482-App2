@@ -1,3 +1,3 @@
 # CS4482-App2
  
-Couldn't complete in time, only left out is the leaderboard.
+Leaderboard how now been added. Some bug fixes (such as physics and animation issues) were made too.
